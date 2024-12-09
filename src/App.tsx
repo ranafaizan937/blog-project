@@ -59,11 +59,7 @@ function App() {
       "https://api.github.com/repos/ranafaizan937/blog-project/contents/content/blog";
 
     axios
-      .get(apiUrl, {
-        headers: {
-          Authorization: "", // Replace with your actual token
-        },
-      })
+      .get(apiUrl)
       .then((response) => {
         const blogFiles = response.data;
         const blogPromises = blogFiles.map((file: any) => {
