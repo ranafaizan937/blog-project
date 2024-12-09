@@ -21,7 +21,6 @@ import { TermsPage } from "./pages/TermsPage";
 import { OverOnsPage } from "./pages/OverOnsPage";
 import { ProjectDetailsProvider } from "./contexts/ProjectDetailsContext";
 import { BlogPostProvider } from "./contexts/BlogPostContext";
-import process from "process";
 
 // BlogData type definition
 interface BlogData {
@@ -48,11 +47,11 @@ function App() {
         // Parse YAML front matter to JSON
         const yamlData = yaml.load(matter[1]) as BlogData;
         return yamlData;
-      } catch (error) {  
+      } catch (error) {
         console.error("Error parsing YAML:", error);
       }
     }
-    return null; 
+    return null;
   };
 
   useEffect(() => {
@@ -62,7 +61,7 @@ function App() {
     axios
       .get(apiUrl, {
         headers: {
-          Authorization: `token ${process.env.REACT_APP_GITHUB_TOKEN}`, // Replace with your actual token
+          Authorization: "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", // Replace with your actual token
         },
       })
       .then((response) => {
