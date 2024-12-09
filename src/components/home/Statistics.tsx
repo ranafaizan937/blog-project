@@ -1,4 +1,3 @@
-import React from 'react';
 
 const stats = [
   { value: '5+', label: 'Jaren Ervaring' },

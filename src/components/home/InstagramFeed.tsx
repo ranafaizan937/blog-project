@@ -1,7 +1,7 @@
-import React from 'react';
+
 import { Instagram, Play } from 'lucide-react';
 
-const instagramPosts = [
+const  instagramPosts = [
   {
     id: 1,
     imageUrl: 'https://images.unsplash.com/photo-1562259949-e8e7689d7828?auto=format&fit=crop&q=80',
