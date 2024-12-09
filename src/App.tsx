@@ -61,7 +61,7 @@ function App() {
     axios
       .get(apiUrl, {
         headers: {
-          Authorization: "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", // Replace with your actual token
+          Authorization: "", // Replace with your actual token
         },
       })
       .then((response) => {
