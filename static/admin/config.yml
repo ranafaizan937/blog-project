@@ -17,11 +17,11 @@ collections:
       - {label: "Publish Date", name: "date", widget: "datetime"}
       - {label: "Featured Image", name: "imageUrl", widget: "image"}
       - {label: "Category", name: "category", widget: "select", options: ["Verfproducten", "Tips & Advies", "Projecten", "Nieuws"]}
-      - {label: "Author", name: "author", widget: "string", default: "Team Schildersbedrijf040"}
+      - {label: "Author", name: "author", widget: "string", default: "Team Sdeschildersbedrijf040"}
+      - {label: "Description", name: "description", widget: "text"}
       - {label: "Excerpt", name: "excerpt", widget: "text"}
       - {label: "Content", name: "content", widget: "markdown"}
       - {label: "Set meta tittle", name: "metatitle", widget: "string"}
-      - {label: "Description", name: "description", widget: "text"}
 
   - name: "projects"
     label: "Projects"
