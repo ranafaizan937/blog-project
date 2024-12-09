@@ -16,14 +16,18 @@ import { Contact } from '../components/home/Contact';
 import { Footer } from '../components/layout/Footer';
 import { CookieConsent } from '../components/common/CookieConsent';
 import { WhatsAppButton } from '../components/common/WhatsAppButton';
+import { BlogData } from '../App';
 
-export function HomePage() {
+interface PropsType{
+  data:BlogData[]
+}
+export const HomePage=({data}:PropsType)=> {
   return (
     <div className="min-h-screen bg-gray-50">
       <Header />
       <main>
         <Hero />
-        <Services />
+        <Services data={data}/>
         <Statistics />
         <Process />
         <AboutUs />

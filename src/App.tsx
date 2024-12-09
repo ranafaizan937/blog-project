@@ -23,7 +23,7 @@ import { ProjectDetailsProvider } from "./contexts/ProjectDetailsContext";
 import { BlogPostProvider } from "./contexts/BlogPostContext";
 
 // BlogData type definition
-interface BlogData {
+export interface BlogData {
   title: string;
   slug: string;
   date: string;
@@ -32,6 +32,8 @@ interface BlogData {
   author: string;
   excerpt: string;
   content: string;
+  description:string;
+  metatitle:string
 }
 
 function App() {
@@ -100,7 +102,7 @@ console.log({blogs})
     <ProjectDetailsProvider>
       <BlogPostProvider>
         <Routes>
-          <Route path="/" element={<HomePage />} />
+          <Route path="/" element={<HomePage data={blogs}/>} />
           <Route
             path="/diensten/binnenschilderwerk"
             element={<BinnenschilderwerkPage />}
