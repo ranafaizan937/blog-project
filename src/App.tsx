@@ -21,6 +21,7 @@ import { TermsPage } from "./pages/TermsPage";
 import { OverOnsPage } from "./pages/OverOnsPage";
 import { ProjectDetailsProvider } from "./contexts/ProjectDetailsContext";
 import { BlogPostProvider } from "./contexts/BlogPostContext";
+import process from "process";
 
 // BlogData type definition
 interface BlogData {
@@ -59,7 +60,11 @@ function App() {
       "https://api.github.com/repos/ranafaizan937/blog-project/contents/content/blog";
 
     axios
-      .get(apiUrl)
+      .get(apiUrl, {
+        headers: {
+          Authorization: `token ${process.env.REACT_APP_GITHUB_TOKEN}`, // Replace with your actual token
+        },
+      })
       .then((response) => {
         const blogFiles = response.data;
         const blogPromises = blogFiles.map((file: any) => {
