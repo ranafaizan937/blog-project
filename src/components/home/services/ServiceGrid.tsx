@@ -1,6 +1,7 @@
 import React from 'react';
 import { ServiceCard } from './ServiceCard';
 import { PaintBucket, Home, Wallpaper, Brush, Paintbrush2, Wrench } from 'lucide-react';
+import { BlogData } from '../../../App';
 
 const services = [
   {
@@ -47,14 +48,16 @@ const services = [
   },
 ];
 
-export function ServiceGrid() {
+interface PropsType{
+  data:BlogData[]
+}
+export function ServiceGrid({data}:PropsType) {
   return (
     <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-      {services.map((service, index) => (
+      {data.map((service, index) => (
         <ServiceCard
-          key={index}
-          {...service}
-        />
+          data={service} key={index}
+          {...service}        />
       ))}
     </div>
   );
