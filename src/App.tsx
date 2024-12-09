@@ -48,7 +48,7 @@ function App() {
         // Parse YAML front matter to JSON
         const yamlData = yaml.load(matter[1]) as BlogData;
         return yamlData;
-      } catch (error) {
+      } catch (error) {  
         console.error("Error parsing YAML:", error);
       }
     }
