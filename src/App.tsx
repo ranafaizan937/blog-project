@@ -52,7 +52,7 @@ function App() {
         console.error("Error parsing YAML:", error);
       }
     }
-    return null;
+    return null; 
   };
 
   useEffect(() => {
