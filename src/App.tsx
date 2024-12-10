@@ -35,18 +35,30 @@ export interface BlogData {
   description:string;
   metatitle:string
 }
+export interface Project  {
+  title: string; 
+  location: string;
+  type: 'Binnenschilderwerk' | 'Buitenschilderwerk' | 'Behangwerk' | 'Lakwerk' | 'Houtrot Sanering' | 'Totaalproject'; // Type of project
+  beforeImage: string; 
+  afterImage: string; 
+  completionDate: string;
+  projectManager: string;
+  description: string; 
+  workPerformed: string[]; 
+  materialsUsed: string[]; 
+  result: string; 
+};
 
 function App() {
-  // State to store the blog data
-  const [blogs, setBlogs] = useState<BlogData[]>([]);
   
+  const [blogs, setBlogs] = useState<BlogData[]>([]);
+  const [project, setProject]= useState<Project[]>([])
 
-  // Extract front matter from markdown file
   const extractFrontMatter = (data: string): BlogData | null => {
-    const matter = data.match(/^---\n([\s\S]*?)\n---/); // Match content between '---'
+    const matter = data.match(/^---\n([\s\S]*?)\n---/); 
     if (matter) {
       try {
-        // Parse YAML front matter to JSON
+
         const yamlData = yaml.load(matter[1]) as BlogData;
         return yamlData;
       } catch (error) {
