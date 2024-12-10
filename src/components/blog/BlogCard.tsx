@@ -1,16 +1,9 @@
-import React from 'react';
 import { Calendar } from 'lucide-react';
+import { BlogData } from '../../App';
 
-interface BlogPost {
-  title: string;
-  excerpt: string;
-  imageUrl: string;
-  category: string;
-  date: string;
-}
 
 interface BlogCardProps {
-  post: BlogPost;
+  post: BlogData;
 }
 
 export function BlogCard({ post }: BlogCardProps) {

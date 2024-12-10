@@ -1,15 +1,7 @@
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import { MapPin } from 'lucide-react';
+import { Project } from '../../App';
 
-interface Project {
-  id: number;
-  title: string;
-  location: string;
-  type: string;
-  imageUrl: string;
-  beforeImage: string;
-  afterImage: string;
-}
 
 interface ProjectCardProps {
   project: Project;

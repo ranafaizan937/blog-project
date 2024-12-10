@@ -1,7 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import * as yaml from "js-yaml"; // To parse YAML front matter
+import * as yaml from "js-yaml"; 
 import { HomePage } from "./pages/HomePage";
 import { BinnenschilderwerkPage } from "./pages/BinnenschilderwerkPage";
 import { HoutrotSaneringPage } from "./pages/HoutrotSaneringPage";
@@ -32,33 +32,39 @@ export interface BlogData {
   author: string;
   excerpt: string;
   content: string;
-  description:string;
-  metatitle:string
+  description: string;
+  metatitle: string;
 }
-export interface Project  {
-  title: string; 
+export interface Project {
+  title: string;
   location: string;
-  type: 'Binnenschilderwerk' | 'Buitenschilderwerk' | 'Behangwerk' | 'Lakwerk' | 'Houtrot Sanering' | 'Totaalproject'; // Type of project
-  beforeImage: string; 
-  afterImage: string; 
+  type:
+    | "Binnenschilderwerk"
+    | "Buitenschilderwerk"
+    | "Behangwerk"
+    | "Lakwerk"
+    | "Houtrot Sanering"
+    | "Totaalproject"; // Type of project
+  beforeImage: string;
+  afterImage: string;
   completionDate: string;
   projectManager: string;
-  description: string; 
-  workPerformed: string[]; 
-  materialsUsed: string[]; 
-  result: string; 
-};
+  description: string;
+  workPerformed: string[];
+  materialsUsed: string[];
+  result: string;
+  slug: string;
+  metatitle: string;
+}
 
 function App() {
-  
   const [blogs, setBlogs] = useState<BlogData[]>([]);
-  const [project, setProject]= useState<Project[]>([])
+  const [project, setProject] = useState<Project[]>([]);
 
   const extractFrontMatter = (data: string): BlogData | null => {
-    const matter = data.match(/^---\n([\s\S]*?)\n---/); 
+    const matter = data.match(/^---\n([\s\S]*?)\n---/);
     if (matter) {
       try {
-
         const yamlData = yaml.load(matter[1]) as BlogData;
         return yamlData;
       } catch (error) {
@@ -108,13 +114,56 @@ function App() {
       .catch((error) => {
         console.log({ error });
       });
-  }, []); // Empty dependency array ensures this effect runs only once on mount
-console.log({blogs})
+  }, []);
+  useEffect(() => {
+    const apiUrl =
+      "https://api.github.com/repos/ranafaizan937/blog-project/contents/content/projects";
+
+    axios
+      .get(apiUrl, {
+        headers: {
+          Authorization: "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",
+        },
+      })
+      .then((response) => {
+        const blogFiles = response.data;
+        const blogPromises = blogFiles.map((file: any) => {
+          return axios
+            .get(file.download_url) // Get the content of each markdown file
+            .then((fileResponse) => {
+              const frontMatter = extractFrontMatter(fileResponse.data);
+              if (frontMatter) {
+                return {
+                  ...frontMatter,
+                  slug: file.name.replace(".md", ""),
+                };
+              }
+              return null;
+            });
+        });
+
+        // Once all blog posts are fetched, set the state
+        Promise.all(blogPromises)
+          .then((blogs) => {
+            // Filter out any null results in case front matter extraction fails
+            setProject(blogs.filter((blog) => blog !== null) as Project[]);
+          })
+          .catch((error) => {
+            console.log({ error });
+          });
+      })
+      .catch((error) => {
+        console.log({ error });
+      });
+  }, []);
   return (
     <ProjectDetailsProvider>
       <BlogPostProvider>
         <Routes>
-          <Route path="/" element={<HomePage data={blogs}/>} />
+          <Route
+            path="/"
+            element={<HomePage data={blogs} projectData={project} />}
+          />
           <Route
             path="/diensten/binnenschilderwerk"
             element={<BinnenschilderwerkPage />}
@@ -135,7 +184,7 @@ console.log({blogs})
           <Route path="/over-ons" element={<OverOnsPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/faq" element={<FAQPage />} />
-          <Route path="/blog" element={<BlogPage  />} />
+          <Route path="/blog" element={<BlogPage />} />
           <Route path="/blog/:id" element={<BlogPostPage />} />
           <Route path="/blog/verf/:slug" element={<BlogPostDetailPage />} />
           <Route path="/privacy" element={<PrivacyPolicyPage />} />

@@ -1,6 +1,6 @@
 
 import { Link } from 'react-router-dom';
-import { LucideIcon, ArrowRight, PiIcon } from 'lucide-react';
+import { ArrowRight, PiIcon } from 'lucide-react';
 import { BlogData } from '../../../App';
 
 
@@ -41,7 +41,7 @@ export function ServiceCard({ data }: PropsType) {
       <div className="p-6">
         <p className="text-gray-600 mb-4">{data.description}</p>
         <Link 
-          to={`/blog/${data.title}`}
+          to={`/blog/${data.slug}`}
           className="inline-flex items-center text-primary-500 font-heading uppercase hover:text-primary-600 transition-colors group"
         >
           <span>Meer Info</span>

@@ -1,12 +1,70 @@
-import React from 'react';
-import { MapPin, Calendar, User } from 'lucide-react';
-import { useParams } from 'react-router-dom';
-import { useProjectDetails } from '../../contexts/ProjectDetailsContext';
+import React, { useEffect, useState } from "react";
+import { MapPin, Calendar, User } from "lucide-react";
+import { useParams } from "react-router-dom";
+import axios from "axios";
+import { Project } from "../../App";
+import * as yaml from "js-yaml";
+import { Helmet } from "react-helmet";
+interface PropsType {
+  setProjectType: React.Dispatch<React.SetStateAction<string>>;
+}
 
-export function ProjectDetail() {
+export function ProjectDetail({ setProjectType }: PropsType) {
   const { id } = useParams();
-  const { getProjectDetails } = useProjectDetails();
-  const project = getProjectDetails(Number(id));
+  const [project, setProject] = useState<Project>();
+  console.log(id);
+  const extractFrontMatter = (data: string): Project | null => {
+    const matter = data.match(/^---\n([\s\S]*?)\n---/);
+    if (matter) {
+      try {
+        const yamlData = yaml.load(matter[1]) as Project;
+        return yamlData;
+      } catch (error) {
+        console.error("Error parsing YAML:", error);
+      }
+    }
+    return null;
+  };
+  useEffect(() => {
+    if (id) {
+      const fetchSpecificBlog = (slug: string) => {
+        const apiUrl = `https://api.github.com/repos/ranafaizan937/blog-project/contents/content/projects/${slug}.md`; // Build URL using slug
+
+        axios
+          .get(apiUrl, {
+            headers: {
+              Authorization: "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", // Replace with your actual token
+            },
+          })
+          .then((response) => {
+            console.log({ dataBlog: response.data.content });
+            // The content is Base64 encoded, so decode it
+            const content = atob(response.data.content);
+            console.log({ content });
+            const frontMatter = extractFrontMatter(content);
+
+            if (frontMatter) {
+              const blog = {
+                ...frontMatter,
+                content,
+                slug,
+              };
+
+              console.log({ projectData: blog });
+              setProject(blog);
+              setProjectType(blog.type);
+            } else {
+              console.error("Invalid front matter");
+            }
+          })
+          .catch((error) => {
+            console.error("Error fetching specific blog:", error);
+          });
+      };
+
+      fetchSpecificBlog(id);
+    }
+  }, []);
 
   if (!project) {
     return (
@@ -14,7 +72,9 @@ export function ProjectDetail() {
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-4xl font-bold mb-6">Project niet gevonden</h1>
-            <p className="text-gray-600">Het opgevraagde project bestaat niet of is niet meer beschikbaar.</p>
+            <p className="text-gray-600">
+              Het opgevraagde project bestaat niet of is niet meer beschikbaar.
+            </p>
           </div>
         </div>
       </div>
@@ -23,10 +83,15 @@ export function ProjectDetail() {
 
   return (
     <section className="py-20">
+      <Helmet>
+        <title>{project.title}</title>
+        <meta name="description" content={project.description} />
+        <meta name="keywords" content="React, Helmet, SEO" />
+      </Helmet>
       <div className="container mx-auto px-4">
         <div className="max-w-4xl mx-auto">
           <h1 className="text-4xl font-bold mb-6">{project.title}</h1>
-          
+
           <div className="flex flex-wrap gap-6 mb-8 text-gray-600">
             <div className="flex items-center">
               <MapPin className="w-5 h-5 mr-2 text-primary-500" />

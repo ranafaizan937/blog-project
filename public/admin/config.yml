@@ -36,6 +36,7 @@ collections:
       - {label: "After Image", name: "afterImage", widget: "image"}
       - {label: "Completion Date", name: "completionDate", widget: "string"}
       - {label: "Project Manager", name: "projectManager", widget: "string"}
+      - {label: "Set meta tittle", name: "metatitle", widget: "string"}
       - {label: "Description", name: "description", widget: "text"}
       - {label: "Work Performed", name: "workPerformed", widget: "list"}
       - {label: "Materials Used", name: "materialsUsed", widget: "list"}

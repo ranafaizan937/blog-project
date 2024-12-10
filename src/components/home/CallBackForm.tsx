@@ -1,77 +1,91 @@
-import React, { useState } from 'react';
-import { Button } from '../common/Button';
-import { Phone } from 'lucide-react';
-import { Toast } from '../common/Toast';
-
+import React, { useState } from "react";
+import { Button } from "../common/Button";
+import { Phone } from "lucide-react";
+import { Toast } from "../common/Toast";
+type ToastType = "success" | "error";
 export function CallBackForm() {
-  const [toast, setToast] = useState({
+  const [toast, setToast] = useState<{
+    show: boolean;
+    message: string;
+    type: ToastType;
+  }>({
     show: false,
-    message: '',
-    type: 'success' as const
+    message: "",
+    type: "success", // Default to "success"
   });
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    
+
     try {
-      await fetch('https://formsubmit.co/info@schildersbedrijf040.nl', {
-        method: 'POST',
+      await fetch("https://formsubmit.co/info@schildersbedrijf040.nl", {
+        method: "POST",
         body: formData,
       });
       setToast({
         show: true,
-        message: 'Bedankt! We bellen u terug op het aangegeven tijdstip.',
-        type: 'success'
+        message: "Bedankt! We bellen u terug op het aangegeven tijdstip.",
+        type: "success",
       });
       e.currentTarget.reset();
     } catch (error) {
       setToast({
         show: true,
-        message: 'Er is iets misgegaan. Probeer het later opnieuw of neem telefonisch contact op.',
-        type: 'error'
+        message:
+          "Er is iets misgegaan. Probeer het later opnieuw of neem telefonisch contact op.",
+        type: "error",
       });
     }
   };
 
   return (
     <section className="relative py-8">
-      <div 
+      <div
         className="absolute inset-0 z-0"
         style={{
-          backgroundImage: 'url("https://images.unsplash.com/photo-1534536281715-e28d76689b4d?auto=format&fit=crop&q=80")',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
+          backgroundImage:
+            'url("https://images.unsplash.com/photo-1534536281715-e28d76689b4d?auto=format&fit=crop&q=80")',
+          backgroundSize: "cover",
+          backgroundPosition: "center",
         }}
       >
         <div className="absolute inset-0 bg-gradient-to-br from-black/80 via-black/70 to-black/80" />
       </div>
-      
+
       <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-4xl mx-auto">
           <div className="grid md:grid-cols-2 gap-8 items-center">
             <div className="text-white">
               <div className="inline-flex items-center space-x-2 bg-primary-500/20 px-4 py-2 rounded-full mb-4">
                 <Phone className="w-5 h-5 text-primary-400" />
-                <span className="text-primary-300">Liever telefonisch contact?</span>
+                <span className="text-primary-300">
+                  Liever telefonisch contact?
+                </span>
               </div>
               <h2 className="text-4xl font-bold mb-3">
-                BEL MIJ TERUG<br />
+                BEL MIJ TERUG
+                <br />
                 <span className="text-primary-400">DOEN WE GRAAG!</span>
               </h2>
               <p className="text-gray-300 text-sm mb-2">
-                Komt het beter uit als we je terugbellen op een moment dat het jou uitkomt? Geen probleem!
+                Komt het beter uit als we je terugbellen op een moment dat het
+                jou uitkomt? Geen probleem!
               </p>
               <p className="text-gray-300 text-sm">
-                Laat via het formulier je telefoonnummer achter en we bellen je graag terug.
+                Laat via het formulier je telefoonnummer achter en we bellen je
+                graag terug.
               </p>
             </div>
-            
+
             <div className="bg-white/10 backdrop-blur-sm p-6 rounded-lg border border-white/20">
               <form className="space-y-4" onSubmit={handleSubmit}>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label htmlFor="callback-name" className="block text-sm font-medium text-white mb-1">
+                    <label
+                      htmlFor="callback-name"
+                      className="block text-sm font-medium text-white mb-1"
+                    >
                       Naam
                     </label>
                     <input
@@ -83,7 +97,10 @@ export function CallBackForm() {
                     />
                   </div>
                   <div>
-                    <label htmlFor="callback-phone" className="block text-sm font-medium text-white mb-1">
+                    <label
+                      htmlFor="callback-phone"
+                      className="block text-sm font-medium text-white mb-1"
+                    >
                       Telefoonnummer
                     </label>
                     <input
@@ -95,9 +112,12 @@ export function CallBackForm() {
                     />
                   </div>
                 </div>
-                
+
                 <div>
-                  <label htmlFor="callback-email" className="block text-sm font-medium text-white mb-1">
+                  <label
+                    htmlFor="callback-email"
+                    className="block text-sm font-medium text-white mb-1"
+                  >
                     Email
                   </label>
                   <input
@@ -108,10 +128,13 @@ export function CallBackForm() {
                     required
                   />
                 </div>
-                
+
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label htmlFor="callback-date" className="block text-sm font-medium text-white mb-1">
+                    <label
+                      htmlFor="callback-date"
+                      className="block text-sm font-medium text-white mb-1"
+                    >
                       Gewenste datum
                     </label>
                     <input
@@ -122,9 +145,12 @@ export function CallBackForm() {
                       required
                     />
                   </div>
-                  
+
                   <div>
-                    <label htmlFor="callback-time" className="block text-sm font-medium text-white mb-1">
+                    <label
+                      htmlFor="callback-time"
+                      className="block text-sm font-medium text-white mb-1"
+                    >
                       Voorkeurstijd
                     </label>
                     <select
@@ -139,12 +165,16 @@ export function CallBackForm() {
                     </select>
                   </div>
                 </div>
-                
+
                 <Button type="submit" variant="primary" fullWidth showArrow>
                   VERSTUREN
                 </Button>
 
-                <input type="hidden" name="_subject" value="Terugbelverzoek via website" />
+                <input
+                  type="hidden"
+                  name="_subject"
+                  value="Terugbelverzoek via website"
+                />
                 <input type="hidden" name="_captcha" value="false" />
                 <input type="hidden" name="_template" value="table" />
               </form>
@@ -153,11 +183,11 @@ export function CallBackForm() {
         </div>
       </div>
 
-      <Toast 
+      <Toast
         show={toast.show}
         message={toast.message}
         type={toast.type}
-        onClose={() => setToast(prev => ({ ...prev, show: false }))}
+        onClose={() => setToast((prev) => ({ ...prev, show: false }))}
       />
     </section>
   );
