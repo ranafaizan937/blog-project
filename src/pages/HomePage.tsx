@@ -27,7 +27,6 @@ export const HomePage = ({ data, projectData }: PropsType) => {
       <Header />
       <main>
         <Hero />
-        <Services data={data} />
         <Statistics />
         <Process />
         <AboutUs />
@@ -36,6 +35,7 @@ export const HomePage = ({ data, projectData }: PropsType) => {
         <InstagramFeed />
         <Guarantee />
         <ServiceArea />
+        <Services data={data} />
         <CallBackForm />
         <SocialShowcase />
         <Contact />
