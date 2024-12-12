@@ -16,6 +16,7 @@ import { Footer } from "../components/layout/Footer";
 import { CookieConsent } from "../components/common/CookieConsent";
 import { WhatsAppButton } from "../components/common/WhatsAppButton";
 import { BlogData, Project } from "../App";
+import ServiceSectionMain from "../components/home/servicesSection2/ServiceSectionMain";
 
 interface PropsType {
   data: BlogData[];
@@ -27,6 +28,7 @@ export const HomePage = ({ data, projectData }: PropsType) => {
       <Header />
       <main>
         <Hero />
+        <ServiceSectionMain />
         <Statistics />
         <Process />
         <AboutUs />
